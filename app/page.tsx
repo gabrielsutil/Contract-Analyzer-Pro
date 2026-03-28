@@ -96,7 +96,15 @@ export default function ContractAnalyzer() {
     setReport('');
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
+      const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+      
+      if (!apiKey) {
+        setError('Chave de API não encontrada. Configure a variável NEXT_PUBLIC_GEMINI_API_KEY no seu ambiente de hospedagem (Netlify).');
+        setIsAnalyzing(false);
+        return;
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
       
       const parts: any[] = [];
       
